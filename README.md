@@ -6,3 +6,6 @@ RabbitMQ知识学习
 * Exchange	(AMQP default) 默认交换机
 * Routing Key	direct-queue-name2 队列名称为路由key
 * 参考com.rabbitmq.dsz.main_test.direct
+
+### 通用手动发送消费方式
+* com.rabbitmq.dsz.main_test.test

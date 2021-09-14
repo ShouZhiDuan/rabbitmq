@@ -22,12 +22,13 @@ public class ProducerMQ {
 
     /**
      * direct直连->发送模式
-     * 默认交换机为空
-     * 但是需要制定queue名称
+     * 1、如果RoutingKey和QueueName相同可以不指定exchange因为direct模式会有默认的交换机。
+     * 2、如果RoutingKey和QueueName不相同，则需要指定交换机名称然后绑定。
      */
     public static void directProducer(Connection connection) throws IOException {
-        String exchangeName = "my-direct-exchange";//direct模式支持默认空""的交换机
-        String directQueueName = "direct-queue-name6";
+        String exchangeName = "direct-ex-2";//direct模式支持默认空""的交换机
+        String directRoutingKey = "my.direct.2";
+        String directQueueName = "direct-queue-2";
         Channel channel = connection.createChannel();
         //参数一：队列名称
         //参数二：是否持久化
@@ -40,7 +41,7 @@ public class ProducerMQ {
         //参数二：队列名称。
         //参数三：消息的其他属性-路由的headers信息。
         //参数四：消息主体
-        channel.basicPublish(exchangeName, directQueueName, null, message.getBytes("UTF-8"));
+        channel.basicPublish(exchangeName, directRoutingKey, null, message.getBytes("UTF-8"));
     }
 
 
