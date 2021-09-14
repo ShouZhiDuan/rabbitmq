@@ -32,11 +32,26 @@ public class ConsumerMQ {
         connectionFactory.setVirtualHost("/test");
         Connection connection = connectionFactory.newConnection();
         Channel channel = connection.createChannel();
-        // 声明交换机
-        // String exchange, String type, boolean durable, boolean autoDelete, Map<String, Object> arguments
+        /**
+         * 声明交换机
+         * String exchange：交换机名称。
+         * String type：交换机类型(direct、fanout、headers、topic)。
+         * boolean durable： 重启是否保留当前交换机。
+         * boolean autoDelete：是否自动删除。
+         * Map<String, Object> arguments：Arguments控制台创建时候设置的一些参数。
+         */
         channel.exchangeDeclare(EXCHANGE_NAME,"direct",true, false, null);
-        // 声明队列
-        // String queue, boolean durable, boolean exclusive, boolean autoDelete, Map<String, Object> arguments
+        /**
+         * 声明队列
+         * String queue：队列名称。
+         * boolean durable：重启服务是否保留当前队列。
+         * boolean exclusive：是否排他性队列。排他性队列只能在声明它的 Connection 中使用（可以在同一个 Connection 的不同的 channel 中使用），连接断开时自动删除。
+         * boolean autoDelete：是否自动删除。如果为 true，至少有一个消费者连接到这个队列，之后所有与这个队列连接的消费者都断开时，队列会自动删除。
+         * Map<String, Object> arguments：队列的其他属性，例如：
+         * Message TTL  | Auto expire  | Max length  | Max length bytes  | Overflow behaviour
+         * Dead letter exchange  | Dead letter routing key  | Single active consumer  | Maximum priority
+         * Lazy mode  Master locator
+         */
         channel.queueDeclare(QUEUE_NAME, true, false, false, null);
         // 绑定队列和交换机
         channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"gupao.best");
