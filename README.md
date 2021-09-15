@@ -14,3 +14,8 @@ RabbitMQ知识学习
 * 参考com.rabbitmq.dsz.main_test.direct
 
 
+## 学习参考
+### Channel
+* https://stackoverflow.com/questions/18418936/rabbitmq-and-relationship-%20between-channel-and-connection
+### 官网
+* https://www.rabbitmq.com/getstarted.html
