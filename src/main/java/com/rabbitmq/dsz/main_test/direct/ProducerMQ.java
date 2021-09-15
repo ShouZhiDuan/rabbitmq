@@ -26,9 +26,9 @@ public class ProducerMQ {
      * 2、如果RoutingKey和QueueName不相同，则需要指定交换机名称然后绑定。
      */
     public static void directProducer(Connection connection) throws IOException {
-        String exchangeName = "direct-ex-2";//direct模式支持默认空""的交换机
-        String directRoutingKey = "my.direct.2";
-        String directQueueName = "direct-queue-2";
+        String exchangeName = "direct-ex-3";//direct模式支持默认空""的交换机
+        String directRoutingKey = "my.direct.3";
+        String directQueueName = "direct-queue-3";
         Channel channel = connection.createChannel();
         //参数一：队列名称
         //参数二：是否持久化
