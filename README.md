@@ -19,3 +19,5 @@ RabbitMQ知识学习
 * https://stackoverflow.com/questions/18418936/rabbitmq-and-relationship-%20between-channel-and-connection
 ### 官网
 * https://www.rabbitmq.com/getstarted.html
+### 常用操作
+* https://www.cnblogs.com/vipstone/p/9295625.html
