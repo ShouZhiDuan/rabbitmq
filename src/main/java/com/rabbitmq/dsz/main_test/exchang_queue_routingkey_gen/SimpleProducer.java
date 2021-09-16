@@ -33,8 +33,13 @@ public class SimpleProducer {
          * 1、发送direct默认的模式交换机到队列
          * 这种情况只要申明队列，然后RoutingKey和当前声明的队列名称一致就会走默认的direct交换机。
          */
-        //channel.queueDeclare("direct-deafault-queue",false,false,false,null);
-        //channel.basicPublish("","direct-deafault-queue",null,"666666".getBytes());
+        //以下为direct默认模式
+//        channel.queueDeclare("direct-deafault-queue",true,false,false,null);
+//        channel.basicPublish("","direct-deafault-queue",null,"666666-1".getBytes());
+        //非默认模式
+        channel.basicPublish(ExchangeQueueKeyGen.exName,ExchangeQueueKeyGen.routingKey,null,"这是一条direct消息,key=direct.key.6".getBytes());
+
+
         /**
          * 2、fanout模式发送
          * 发现fanout模式可以不用指定routingKey,如果指定了routingKey也没有效果。
@@ -55,13 +60,13 @@ public class SimpleProducer {
          * 4、headers模式发送
          * 参考：https://blog.csdn.net/hry2015/article/details/79188615
          */
-        HashMap headers = new HashMap();
-        headers.put("format","pdf");
-        headers.put("x-match","all");
-        //headers.put("x-match","any");
-        AMQP.BasicProperties properties = new AMQP.BasicProperties();
-        properties.builder().headers(headers).build();
-        channel.basicPublish("topic-ex-6","topic.abc",null,"发送一条key=topic.abc的消息".getBytes());
+//        HashMap headers = new HashMap();
+//        headers.put("format","pdf");
+//        headers.put("x-match","all");
+//        //headers.put("x-match","any");
+//        AMQP.BasicProperties properties = new AMQP.BasicProperties();
+//        properties.builder().headers(headers).build();
+//        channel.basicPublish("topic-ex-6","topic.abc",properties,"发送一条带header的消息".getBytes());
 
     }
 

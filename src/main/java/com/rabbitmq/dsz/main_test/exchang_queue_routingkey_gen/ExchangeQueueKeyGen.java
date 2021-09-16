@@ -1,5 +1,6 @@
 package com.rabbitmq.dsz.main_test.exchang_queue_routingkey_gen;
 
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -16,10 +17,13 @@ public class ExchangeQueueKeyGen {
      * direct、fanout、headers、topic
      * 其中fanout广播模式可以不用指定routingKey
      */
-    private static String exType = "headers";
-    private static String exName = "headers-ex-6";
-    private static String qName = "headers-ex-queue-6-1";
-    private static String routingKey = "";
+    public static int index = 6;
+    public static String exType = BuiltinExchangeType.DIRECT.getType();
+    public static String exName = "direct-ex-" + index;
+    public static String qName = "direct-ex-queue-" + index;
+    public static String routingKey = "direct.key." + index;
+
+
 
     public static Connection getConnection() throws IOException, TimeoutException {
         ConnectionFactory connectionFactory = new ConnectionFactory();
