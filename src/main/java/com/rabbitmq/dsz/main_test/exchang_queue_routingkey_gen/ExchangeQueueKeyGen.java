@@ -17,11 +17,31 @@ public class ExchangeQueueKeyGen {
      * direct、fanout、headers、topic
      * 其中fanout广播模式可以不用指定routingKey
      */
-    public static int index = 6;
-    public static String exType = BuiltinExchangeType.DIRECT.getType();
-    public static String exName = "direct-ex-" + index;
-    public static String qName = "direct-ex-queue-" + index;
-    public static String routingKey = "direct.key." + index;
+    public static int index = 66;
+
+    /**
+     * direct
+     */
+//    public static String exType = BuiltinExchangeType.DIRECT.getType();
+//    public static String exName = "direct-ex-" + index;
+//    public static String qName = "direct-ex-queue-" + index;
+//    public static String routingKey = "direct.key." + index;
+
+    /**
+     * fanout
+     */
+//    public static String exType = BuiltinExchangeType.FANOUT.getType();
+//    public static String exName = "fanout-ex-" + index;
+//    public static String qName = "fanout-ex-queue-" + index;
+//    public static String routingKey = "";
+
+    /**
+     * topic
+     */
+    public static String exType = BuiltinExchangeType.TOPIC.getType();
+    public static String exName = "topic-ex-" + index;
+    public static String qName = "topic-ex-queue-" + index;
+    public static String routingKey = "order.*.tag";
 
 
 

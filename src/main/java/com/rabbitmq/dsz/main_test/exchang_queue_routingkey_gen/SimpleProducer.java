@@ -37,7 +37,7 @@ public class SimpleProducer {
 //        channel.queueDeclare("direct-deafault-queue",true,false,false,null);
 //        channel.basicPublish("","direct-deafault-queue",null,"666666-1".getBytes());
         //非默认模式
-        channel.basicPublish(ExchangeQueueKeyGen.exName,ExchangeQueueKeyGen.routingKey,null,"这是一条direct消息,key=direct.key.6".getBytes());
+        //channel.basicPublish(ExchangeQueueKeyGen.exName,ExchangeQueueKeyGen.routingKey,null,"这是一条direct消息,key=direct.key.6".getBytes());
 
 
         /**
@@ -45,7 +45,7 @@ public class SimpleProducer {
          * 发现fanout模式可以不用指定routingKey,如果指定了routingKey也没有效果。
          * 消息默认都会被分发到所有fanout下的所有queue.
          */
-        //channel.basicPublish("fanout-ex-6","fanout.key",null,"第二次发一次带routingKey的fanout消息".getBytes());
+        //channel.basicPublish(ExchangeQueueKeyGen.exName,ExchangeQueueKeyGen.routingKey,null,(System.currentTimeMillis()+"这是一条fanout消息").getBytes());
         /**
          * 3、topic模式发送
          * 正则路由RoutingKey
@@ -55,7 +55,8 @@ public class SimpleProducer {
          */
         //topic.#           topic-ex-queue-6-3
         //topic.create.*    topic-ex-queue-6-5
-        //channel.basicPublish("topic-ex-6","topic.abc",null,"发送一条key=topic.abc的消息".getBytes());
+        //order.*.tag   topic-ex-queue-66
+        //channel.basicPublish(ExchangeQueueKeyGen.exName,"order.abc.tag",null,(System.currentTimeMillis()+"这是一条topic消息").getBytes());
         /**
          * 4、headers模式发送
          * 参考：https://blog.csdn.net/hry2015/article/details/79188615
