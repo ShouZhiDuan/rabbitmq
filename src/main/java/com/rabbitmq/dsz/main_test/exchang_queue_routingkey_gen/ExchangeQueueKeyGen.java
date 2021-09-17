@@ -17,7 +17,7 @@ public class ExchangeQueueKeyGen {
      * direct、fanout、headers、topic
      * 其中fanout广播模式可以不用指定routingKey
      */
-    public static int index = 66;
+    public static int index = 109;
 
     /**
      * direct
@@ -38,11 +38,18 @@ public class ExchangeQueueKeyGen {
     /**
      * topic
      */
-    public static String exType = BuiltinExchangeType.TOPIC.getType();
-    public static String exName = "topic-ex-" + index;
-    public static String qName = "topic-ex-queue-" + index;
-    public static String routingKey = "order.*.tag";
+//    public static String exType = BuiltinExchangeType.TOPIC.getType();
+//    public static String exName = "topic-ex-" + index;
+//    public static String qName = "topic-ex-queue-" + index;
+//    public static String routingKey = "order.*.tag";
 
+    /**
+     * headers
+     */
+    public static String exType = BuiltinExchangeType.HEADERS.getType();
+    public static String exName = "headers-ex-" + index;
+    public static String qName = "";
+    public static String routingKey = "";
 
 
     public static Connection getConnection() throws IOException, TimeoutException {
@@ -60,9 +67,15 @@ public class ExchangeQueueKeyGen {
         //获取连接
         Connection connection = getConnection();
         Channel channel = connection.createChannel();
-        channel.exchangeDeclare(exName,exType,true, false, null);// 声明交换机
-        channel.queueDeclare(qName, true, false, false, null);// 声明队列
-        channel.queueBind(qName,exName,routingKey);// 绑定队列和交换机
+
+        //声明header类型交换机
+        channel.exchangeDeclare(exName,exType);
+
+        //申明direct|fanout|topic
+//        channel.exchangeDeclare(exName,exType,true, false, null);// 声明交换机
+//        channel.queueDeclare(qName, true, false, false, null);// 声明队列
+//        channel.queueBind(qName,exName,routingKey);// 绑定队列和交换机
+
         channel.close();
         connection.close();
     }

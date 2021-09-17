@@ -1,12 +1,10 @@
 package com.rabbitmq.dsz.main_test.exchang_queue_routingkey_gen;
 
-import com.rabbitmq.client.AMQP;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
+import com.rabbitmq.client.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 /**
@@ -60,15 +58,29 @@ public class SimpleProducer {
         /**
          * 4、headers模式发送
          * 参考：https://blog.csdn.net/hry2015/article/details/79188615
+         * 注意点：
+         *  - headers模式必须要先启动消费者，否则在消费者启动之前的消息将会丢失，不会被消费之消费。
+         *  - headers模式使用原生API时候监听状态期间不允许关闭channel。channel.close()否则监听不到消息。
          */
-//        HashMap headers = new HashMap();
-//        headers.put("format","pdf");
-//        headers.put("x-match","all");
-//        //headers.put("x-match","any");
-//        AMQP.BasicProperties properties = new AMQP.BasicProperties();
-//        properties.builder().headers(headers).build();
-//        channel.basicPublish("topic-ex-6","topic.abc",properties,"发送一条带header的消息".getBytes());
+         sendHeaders(channel);
+    }
 
+    /**
+     * 发送header类型的消息
+     */
+    public static void sendHeaders(Channel channel) throws IOException {
+        String EXCHANGE_NAME = "header-exchane-test-6";
+        Map<String,Object> headers = new HashMap<>();
+        headers.put("tag",1);
+        // 声明一个headers交换机
+        channel.exchangeDeclare(EXCHANGE_NAME, BuiltinExchangeType.HEADERS);
+        String message = "我是headers消息39：" + System.currentTimeMillis();
+        AMQP.BasicProperties props = new AMQP.BasicProperties
+                .Builder()
+                .headers(headers)
+                .build();
+        channel.basicPublish(EXCHANGE_NAME, "", props, message.getBytes("UTF-8"));
+        System.out.println(" [HeaderSend] Sent '" + headers + "':'" + message + "'");
     }
 
 
