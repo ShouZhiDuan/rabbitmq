@@ -1,5 +1,6 @@
 # rabbitmq
 RabbitMQ知识学习
+控制台：http://192.168.10.33:15672
 
 ## 一、通用手动发送消费方式
 * com.rabbitmq.dsz.main_test.test
