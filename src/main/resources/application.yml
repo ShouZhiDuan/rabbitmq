@@ -1,2 +1,17 @@
 server:
   port: 80
+
+spring:
+  rabbitmq:
+    host: 192.168.10.33
+    port: 5672
+    virtual-host: tianshu
+    username: dev_tianshu
+    password: 123456
+    #超时时间
+    connection-timeout: 10000s
+    #开启消息送达提示
+    publisher-returns: true
+    #开启不可达消息不会被broker给删除
+    template:
+      mandatory: true
