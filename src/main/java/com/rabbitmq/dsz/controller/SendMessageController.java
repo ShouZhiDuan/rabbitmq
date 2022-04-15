@@ -1,6 +1,7 @@
 package com.rabbitmq.dsz.controller;
 
 import com.rabbitmq.dsz.MsgDTO;
+import com.rabbitmq.dsz.config.HandleServer;
 import javafx.scene.control.cell.CheckBoxTreeTableCell;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Queue;
@@ -31,6 +32,9 @@ public class SendMessageController {
     @Autowired
     private SimpleMessageListenerContainer container;
 
+    @Autowired
+    private HandleServer handleServer;
+
 
     @GetMapping("/msg")
     public Object sendMsg(String queueName, String msg){
@@ -40,6 +44,7 @@ public class SendMessageController {
         rabbitTemplate.convertAndSend(queueName,new MsgDTO("test_name", "浙江省杭州市滨江区"));
         log.info("消费队列：{}的消息：{}",queueName, msg);
         container.setQueueNames(queueName);
+        container.setMessageListener(handleServer);
         return "OK";
     }
 

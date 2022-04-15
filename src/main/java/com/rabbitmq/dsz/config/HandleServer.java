@@ -1,9 +1,11 @@
 package com.rabbitmq.dsz.config;
 
 import com.rabbitmq.client.Channel;
+import com.rabbitmq.dsz.MsgDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 /**
