@@ -1,12 +1,12 @@
 package com.rabbitmq.dsz.config;
 
 import com.rabbitmq.client.Channel;
-import com.rabbitmq.dsz.MsgDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+
+import java.io.IOException;
 
 /**
  * @Auther: ShouZhi@Duan
@@ -18,9 +18,10 @@ import org.springframework.stereotype.Service;
 public class HandleServer implements ChannelAwareMessageListener {
 
     @Override
-    public void onMessage(Message message, Channel channel) {
+    public void onMessage(Message message, Channel channel) throws IOException {
         String consumerQueue = message.getMessageProperties().getConsumerQueue();
         String msg = new String(message.getBody());
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
         log.info("HandleServer 消费者收到队列:{}", consumerQueue);
         log.info("HandleServer 消费者收到消息:{}", msg);
     }
