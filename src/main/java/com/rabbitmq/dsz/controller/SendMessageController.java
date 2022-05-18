@@ -1,7 +1,9 @@
 package com.rabbitmq.dsz.controller;
 
+import com.rabbitmq.dsz.MsgDTO;
 import com.rabbitmq.dsz.config.HandleServer;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -36,20 +38,40 @@ public class SendMessageController {
     private HandleServer handleServer;
 
 
-//    @GetMapping("/msg")
-//    public Object sendMsg(String queueName, String msg){
-//        log.info("发送队列：{}的消息：{}",queueName, msg);
-//        rabbitAdmin.declareQueue(new Queue(queueName));
-//        //rabbitTemplate.convertAndSend(queueName,msg);
-//        rabbitTemplate.convertAndSend(queueName,new MsgDTO("test_name", "浙江省杭州市滨江区"));
+    @GetMapping("/msg")
+        public Object sendMsg(String queueName, String msg){
+        log.info("发送队列：{}的消息：{}",queueName, msg);
+        Properties queueProperties = rabbitAdmin.getQueueProperties(queueName);
+        if(Objects.isNull(queueProperties)){
+            log.info("{}不存在，初始创建。。。。。。", queueName);
+            rabbitAdmin.declareQueue(new Queue(queueName));
+        }
+        rabbitTemplate.convertAndSend(queueName,new MsgDTO("test_name", "浙江省杭州市滨江区"));
 //        log.info("消费队列：{}的消息：{}",queueName, msg);
 //        container.setQueueNames(queueName);
 //        container.setMessageListener(handleServer);
-//        return "OK";
-//    }
+        return "发送OK";
+    }
 
     /**
-     * http://localhost/msg/send?queueName=topic3
+     * http://localhost/msg/monitor?queueName=topic6
+     */
+    @GetMapping("/monitor")
+    public Object monitorMsg(String queueName){
+        Properties queueProperties = rabbitAdmin.getQueueProperties(queueName);
+        if(Objects.isNull(queueProperties)){
+            //为空创建
+            rabbitAdmin.declareQueue(new Queue(queueName));
+        }
+        //container.setRetryDeclarationInterval(2000);
+        container.setQueueNames(queueName);
+        //container.setAcknowledgeMode(AcknowledgeMode.AUTO);
+        //container.setMessageListener(handleServer);
+        return "==监听OK==";
+    }
+
+    /**
+     * http://localhost/msg/send?queueName=topic_shouzhi_queue
      */
     @GetMapping("/send")
     public Object sendMsg(String queueName){
@@ -68,22 +90,7 @@ public class SendMessageController {
             rabbitAdmin.declareQueue(new Queue(queueName));
         }
         rabbitTemplate.convertAndSend(queueName,map);
-        return "發送OK";
-    }
-
-    /**
-     * http://localhost/msg/monitor?queueName=topic6
-     */
-    @GetMapping("/monitor")
-    public Object monitorMsg(String queueName){
-        Properties queueProperties = rabbitAdmin.getQueueProperties(queueName);
-        if(Objects.isNull(queueProperties)){
-            //為空創建
-            rabbitAdmin.declareQueue(new Queue(queueName));
-        }
-        container.setQueueNames(queueName);
-        container.setMessageListener(handleServer);
-        return "監聽OK";
+        return "===发送OK===";
     }
 
 

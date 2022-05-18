@@ -15,3 +15,17 @@ spring:
     #开启不可达消息不会被broker给删除
     template:
       mandatory: true
+    listener:
+#      direct:
+      simple:
+        prefetch: 20
+        missing-queues-fatal: false
+        acknowledge-mode: auto
+        retry:
+          enabled: true
+          max-attempts: 5
+          initial-interval: 2000
+
+logging:
+  level:
+    com.rabbitmq.dsz.*: debug

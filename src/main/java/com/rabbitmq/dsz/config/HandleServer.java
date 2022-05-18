@@ -5,26 +5,42 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.listener.api.ChannelAwareMessageListener;
 import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 
-/**
- * @Auther: ShouZhi@Duan
- * @Date: 2022/4/14 18:31
- * @Description:
- */
 @Slf4j
 @Service
 public class HandleServer implements ChannelAwareMessageListener {
 
     @Override
     public void onMessage(Message message, Channel channel) throws IOException {
-        String consumerQueue = message.getMessageProperties().getConsumerQueue();
         String msg = new String(message.getBody());
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
-        log.info("HandleServer 消费者收到队列:{}", consumerQueue);
-        log.info("HandleServer 消费者收到消息:{}", msg);
+        String messageId = message.getMessageProperties().getMessageId();
+        log.debug("HandleServer 消息ID为：{},消费DeliveryTag:{}",messageId,message.getMessageProperties().getDeliveryTag());
+        try {
+            int a = 1/0;
+            //channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+        } catch (Exception e) {
+            log.debug("======消费异常再来一次======");
+            throw e;
+        } finally {
+
+        }
     }
+
+//    @Override
+//    public void onMessage(Message message, Channel channel) throws IOException {
+//        String consumerQueue = message.getMessageProperties().getConsumerQueue();
+//        String msg = new String(message.getBody());
+//        log.info("======再消费一次======");
+//        log.info("HandleServer 消费者收到队列的线程ID:{}", Thread.currentThread().getName());
+//        log.info("HandleServer 消费者收到队列:{}", consumerQueue);
+//        log.info("HandleServer 消费者收到消息:{}", msg);
+//        log.info("HandleServer 消费者收到消息ID:{}",  message.getMessageProperties().getDeliveryTag());
+//        int a = 1/0;
+//        channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+//        log.info("消费异常：" + message.getMessageProperties().getMessageId());
+//    }
+
 
 //    @Override
 //    public void onMessage(Message message, Channel channel) {
