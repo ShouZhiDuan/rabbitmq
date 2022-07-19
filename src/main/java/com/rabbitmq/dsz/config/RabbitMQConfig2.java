@@ -108,5 +108,4 @@ public class RabbitMQConfig2 {
                 //.recoverer(new DefaultMessageRecoverer())
                 .build();
     }
-
 }
