@@ -46,6 +46,9 @@ public class RabbitMQConfig2 {
         return new RabbitAdmin(connectionFactory);
     }
 
+    /**
+     * 这种方式application.yml配置文件相关策略不会生效。
+     */
 //    @Bean
 //    public SimpleMessageListenerContainer simpleMessageListenerContainer(ConnectionFactory connectionFactory){
 //        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
@@ -65,6 +68,8 @@ public class RabbitMQConfig2 {
 
     /**
      * to see https://www.codeleading.com/article/39691078081/
+     * 这种方式解决simple监听模式，生效配置文件规则。上面50行配置的方式无法生效application.yml关于RabbitMQ配置，比如说重试机制在配置文件simple不会生效上面的方式
+     * 但是这种方式：spring.rabbitmq.listener.simple.retry.max-attempts=3会生效。
      */
     @Bean
     public SimpleMessageListenerContainer SimpleMessageListenerContainer(SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory) {
